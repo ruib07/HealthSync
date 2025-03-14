@@ -1,17 +1,32 @@
+using HealthSync.WinForms.Services;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace HealthSync.WinForms
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            var serviceProvider = new ServiceCollection().AddSingleton<HttpClient>(sp =>
+            {
+                var httpClient = new HttpClient()
+                {
+                    BaseAddress = new Uri("http://localhost:3005")
+                };
+                return httpClient;
+            })
+            .AddSingleton<PatientsService>()
+            .AddSingleton<DoctorsService>()
+            .AddSingleton<AppointmentsService>()
+            .AddSingleton<MedicalRecordsService>()
+            .AddSingleton<HealthSyncForm>()
+            .BuildServiceProvider();
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            var healthSyncForm = serviceProvider.GetRequiredService<HealthSyncForm>();
+            Application.Run(healthSyncForm);
         }
     }
 }

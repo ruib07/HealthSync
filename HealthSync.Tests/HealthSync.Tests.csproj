@@ -33,11 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\HealthSync.API\HealthSync.API.csproj" />
     <ProjectReference Include="..\HealthSync.Domain\HealthSync.Domain.csproj" />
     <ProjectReference Include="..\HealthSync.Infrastructure\HealthSync.Infrastructure.csproj" />
   </ItemGroup>

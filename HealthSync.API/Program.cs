@@ -20,7 +20,7 @@ builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
 
 builder.Services.AddScoped<DoctorsService>();
 builder.Services.AddScoped<PatientsService>();
-builder.Services.AddScoped<AppointmentRepository>();
+builder.Services.AddScoped<AppointmentsService>();
 builder.Services.AddScoped<MedicalRecordsService>();
 
 var app = builder.Build();
