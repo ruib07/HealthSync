@@ -1,131 +1,185 @@
 ﻿using HealthSync.Domain.Entities;
+using HealthSync.WinForms.AppointmentsForms;
+using HealthSync.WinForms.DoctorsForms;
+using HealthSync.WinForms.Helper;
+using HealthSync.WinForms.MedicalRecordsForms;
+using HealthSync.WinForms.PatientsForms;
 using HealthSync.WinForms.Services;
 
-namespace HealthSync.WinForms
+namespace HealthSync.WinForms;
+
+public partial class HealthSyncForm : Form
 {
-    public partial class HealthSyncForm : Form
+    private readonly PatientsService _patientsService;
+    private readonly DoctorsService _doctorsService;
+    private readonly AppointmentsService _appointmentsService;
+    private readonly MedicalRecordsService _medicalRecordsService;
+
+    public HealthSyncForm(PatientsService patientsService, DoctorsService doctorsService,
+                            AppointmentsService appointmentsService, MedicalRecordsService medicalRecordsService)
     {
-        private readonly PatientsService _patientsService;
-        private readonly DoctorsService _doctorsService;
-        private readonly AppointmentsService _appointmentsService;
-        private readonly MedicalRecordsService _medicalRecordsService;
+        InitializeComponent();
+        this.Resize += ResizeEvent;
 
-        public HealthSyncForm(PatientsService patientsService, DoctorsService doctorsService, 
-                                AppointmentsService appointmentsService, MedicalRecordsService medicalRecordsService)
+        _patientsService = patientsService;
+        _doctorsService = doctorsService;
+        _appointmentsService = appointmentsService;
+        _medicalRecordsService = medicalRecordsService;
+    }
+
+    private void HealthSyncForm_Load(object sender, EventArgs e)
+    {
+        UIHelper.CenterDataGridView(this, PatientsData);
+        UIHelper.CenterDataGridView(this, DoctorsData);
+        UIHelper.CenterDataGridView(this, AppointmentsData);
+        UIHelper.CenterDataGridView(this, MedicalRecordsData);
+    }
+
+    private void ResizeEvent(object sender, EventArgs e)
+    {
+        UIHelper.CenterTitleLabels(this, PatientsTitle);
+        UIHelper.CenterTitleLabels(this, DoctorsTitle);
+        UIHelper.CenterTitleLabels(this, AppointmentsTitle);
+        UIHelper.CenterTitleLabels(this, MedicalRecordsTitle);
+
+        UIHelper.CenterCreateButton(this, CreatePatientButton);
+        UIHelper.CenterCreateButton(this, CreateDoctorButton);
+        UIHelper.CenterCreateButton(this, CreateAppointmentButton);
+        UIHelper.CenterCreateButton(this, CreateMedicalRecordButton);
+    }
+
+    private async void TabControl_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (HomeTab.SelectedTab == PatientsTab) await LoadPatients();
+        if (HomeTab.SelectedTab == DoctorsTab) await LoadDoctors();
+        if (HomeTab.SelectedTab == AppointmentsTab) await LoadAppointments();
+        if (HomeTab.SelectedTab == MedicalRecordsTab) await LoadMedicalRecords();
+        if (HomeTab.SelectedTab == ExitTab) ExitButton_Click(sender, e);
+    }
+
+    #region Patients
+
+    private async Task LoadPatients()
+    {
+        try
         {
-            InitializeComponent();
+            var patients = await _patientsService.GetPatients();
+            PatientsData.DataSource = new List<Patients>(patients);
 
-            HomeTab.TabPages.Add(new TabPage("Exit"));
-
-            _patientsService = patientsService;
-            _doctorsService = doctorsService;
-            _appointmentsService = appointmentsService;
-            _medicalRecordsService = medicalRecordsService;
+            PatientsData.Columns["Id"].Visible = false;
         }
-
-        private void HealthSyncForm_Load(object sender, EventArgs e)
+        catch (Exception ex)
         {
-            CenterDataGridView(PatientsData);
-            CenterDataGridView(DoctorsData);
-            CenterDataGridView(AppointmentsData);
-            CenterDataGridView(MedicalRecordsData);
-        }
-
-        private async void TabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (HomeTab.SelectedTab == PatientsTab) await LoadPatients();
-            if (HomeTab.SelectedTab == DoctorsTab) await LoadDoctors();
-            if (HomeTab.SelectedTab == AppointmentsTab) await LoadAppointments();
-            if (HomeTab.SelectedTab == MedicalRecordsTab) await LoadMedicalRecords();
-            if (HomeTab.SelectedTab.Text == "Exit")
-            {
-                DialogResult result = MessageBox.Show("Are you sure that you want to exit from the application?",
-                                                        "EXIT", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                if (result == DialogResult.Yes)
-                {
-                    Application.Exit();
-                }
-                else
-                {
-                    HomeTab.SelectedTab = PatientsTab;
-                }
-            }
-        }
-
-        #region Patients
-
-        private async Task LoadPatients()
-        {
-            try
-            {
-                var patients = await _patientsService.GetPatients();
-                PatientsData.DataSource = new List<Patients>(patients);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        #endregion
-
-        #region Doctors
-
-        private async Task LoadDoctors()
-        {
-            try
-            {
-                var doctors = await _doctorsService.GetDoctors();
-                DoctorsData.DataSource = new List<Doctors>(doctors);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        #endregion
-
-        #region Appointments
-
-        private async Task LoadAppointments()
-        {
-            try
-            {
-                var appointments = await _appointmentsService.GetAppointments();
-                AppointmentsData.DataSource = new List<Appointments>(appointments);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        #endregion
-
-        #region Medical Records
-
-        private async Task LoadMedicalRecords()
-        {
-            try
-            {
-                var medicalRecords = await _medicalRecordsService.GetMedicalRecords();
-                MedicalRecordsData.DataSource = new List<MedicalRecords>(medicalRecords);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        #endregion
-
-        private void CenterDataGridView(DataGridView dataGridView)
-        {
-            int x = (this.ClientSize.Width - dataGridView.Width) / 2;
-            int y = (this.ClientSize.Height - dataGridView.Height) / 2;
-            dataGridView.Location = new Point(x, y);
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
+
+    private async void CreatePatientButton_Click(object sender, EventArgs e)
+    {
+        var addPatientForm = new AddPatientForm(_patientsService);
+        addPatientForm.ShowDialog();
+
+        await LoadPatients();
+    }
+
+    #endregion
+
+    #region Doctors
+
+    private async Task LoadDoctors()
+    {
+        try
+        {
+            var doctors = await _doctorsService.GetDoctors();
+            DoctorsData.DataSource = new List<Doctors>(doctors);
+
+            DoctorsData.Columns["Id"].Visible = false;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private async void CreateDoctorButton_Click(object sender, EventArgs e)
+    {
+        var addDoctorForm = new AddDoctorForm(_doctorsService);
+        addDoctorForm.ShowDialog();
+
+        await LoadDoctors();
+    }
+
+    #endregion
+
+    #region Appointments
+
+    private async Task LoadAppointments()
+    {
+        try
+        {
+            var appointments = await _appointmentsService.GetAppointments();
+            AppointmentsData.DataSource = new List<Appointments>(appointments);
+
+            AppointmentsData.Columns["Id"].Visible = false;
+            AppointmentsData.Columns["Patient"].Visible = false;
+            AppointmentsData.Columns["Doctor"].Visible = false;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private async void CreateAppointmentButton_Click(object sender, EventArgs e)
+    {
+        var addAppointmentForm = new AddAppointmentForm(_appointmentsService, _patientsService, _doctorsService);
+        addAppointmentForm.ShowDialog();
+
+        await LoadAppointments();
+    }
+
+    #endregion
+
+    #region Medical Records
+
+    private async Task LoadMedicalRecords()
+    {
+        try
+        {
+            var medicalRecords = await _medicalRecordsService.GetMedicalRecords();
+            MedicalRecordsData.DataSource = new List<MedicalRecords>(medicalRecords);
+
+            MedicalRecordsData.Columns["Id"].Visible = false;
+            MedicalRecordsData.Columns["Patient"].Visible = false;
+            MedicalRecordsData.Columns["Doctor"].Visible = false;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private async void CreateMedicalRecordButton_Click(object sender, EventArgs e)
+    {
+        var addMedicalRecordForm = new AddMedicalRecordForm(_medicalRecordsService, _patientsService, _doctorsService);
+        addMedicalRecordForm.ShowDialog();
+
+        await LoadMedicalRecords();
+    }
+
+    #endregion
+
+    #region Exit Application Event
+
+    private void ExitButton_Click(object sender, EventArgs e)
+    {
+        var result = MessageBox.Show("Are you sure that you want to exit from the application?",
+                                        "EXIT", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+        if (result == DialogResult.Yes) Application.Exit();
+
+        else HomeTab.SelectedTab = PatientsTab;
+    }
+
+    #endregion
 }

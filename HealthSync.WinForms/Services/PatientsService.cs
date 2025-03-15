@@ -1,4 +1,5 @@
 ﻿using HealthSync.Domain.Entities;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace HealthSync.WinForms.Services;
@@ -17,8 +18,17 @@ public class PatientsService
         return await _httpClient.GetFromJsonAsync<IEnumerable<Patients>>("api/v1/patients");
     }
 
-    public async Task<Patients> GetPatientById(Guid patientId)
+    public async Task<Patients> CreatePatient(Patients patient)
     {
-        return await _httpClient.GetFromJsonAsync<Patients>($"api/v1/patients/{patientId}");
+        var response = await _httpClient.PostAsJsonAsync("api/v1/patients", patient);
+
+        if (response.StatusCode == HttpStatusCode.Created)
+        {
+            return await response.Content.ReadFromJsonAsync<Patients>();
+        }
+        else
+        {
+            throw new Exception($"Error creating patient: {response.ReasonPhrase}");
+        }
     }
 }
