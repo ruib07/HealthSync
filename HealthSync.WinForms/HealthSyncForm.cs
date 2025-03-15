@@ -21,6 +21,11 @@ public partial class HealthSyncForm : Form
         InitializeComponent();
         this.Resize += ResizeEvent;
 
+        PatientsData.CellContentClick += PatientsData_DeleteCellClick;
+        DoctorsData.CellContentClick += DoctorsData_DeleteCellClick;
+        AppointmentsData.CellContentClick += AppointmentsData_DeleteCellClick;
+        MedicalRecordsData.CellContentClick += MedicalRecordsData_DeleteCellClick;
+
         _patientsService = patientsService;
         _doctorsService = doctorsService;
         _appointmentsService = appointmentsService;
@@ -82,6 +87,33 @@ public partial class HealthSyncForm : Form
         await LoadPatients();
     }
 
+    private async void PatientsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.ColumnIndex >= 0 && PatientsData.Columns[e.ColumnIndex] == DeletePatientButton)
+        {
+            var patientId = (Guid)PatientsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this patient?", "Confirm Deletion", 
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    await _patientsService.RemovePatient(patientId);
+
+                    await LoadPatients();
+
+                    MessageBox.Show("Patient removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region Doctors
@@ -107,6 +139,33 @@ public partial class HealthSyncForm : Form
         addDoctorForm.ShowDialog();
 
         await LoadDoctors();
+    }
+
+    private async void DoctorsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.ColumnIndex >= 0 && DoctorsData.Columns[e.ColumnIndex] == DeleteDoctorButton)
+        {
+            var doctorId = (Guid)DoctorsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this doctor?", "Confirm Deletion",
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    await _doctorsService.RemoveDoctor(doctorId);
+
+                    await LoadDoctors();
+
+                    MessageBox.Show("Doctor removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting doctor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 
     #endregion
@@ -138,6 +197,33 @@ public partial class HealthSyncForm : Form
         await LoadAppointments();
     }
 
+    private async void AppointmentsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.ColumnIndex >= 0 && AppointmentsData.Columns[e.ColumnIndex] == DeleteAppointmentButton)
+        {
+            var appointmentId = (Guid)AppointmentsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this appointment?", "Confirm Deletion",
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    await _appointmentsService.RemoveAppointment(appointmentId);
+
+                    await LoadAppointments();
+
+                    MessageBox.Show("Appointment removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting appointment: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region Medical Records
@@ -165,6 +251,33 @@ public partial class HealthSyncForm : Form
         addMedicalRecordForm.ShowDialog();
 
         await LoadMedicalRecords();
+    }
+
+    private async void MedicalRecordsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.ColumnIndex >= 0 && MedicalRecordsData.Columns[e.ColumnIndex] == DeleteMedicalRecordButton)
+        {
+            var medicalRecordId = (Guid)MedicalRecordsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+            var confirmResult = MessageBox.Show("Are you sure you want to delete this medical record?", "Confirm Deletion",
+                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    await _medicalRecordsService.RemoveMedicalRecord(medicalRecordId);
+
+                    await LoadMedicalRecords();
+
+                    MessageBox.Show("Medical record removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting medical record: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 
     #endregion

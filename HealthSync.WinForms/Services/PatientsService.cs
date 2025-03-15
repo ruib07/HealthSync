@@ -31,4 +31,14 @@ public class PatientsService
             throw new Exception($"Error creating patient: {response.ReasonPhrase}");
         }
     }
+
+    public async Task RemovePatient(Guid patientId)
+    {
+        var response = await _httpClient.DeleteAsync($"api/v1/patients/{patientId}");
+
+        if (response.StatusCode != HttpStatusCode.NoContent)
+        {
+            throw new Exception($"Error deleting patient: {response.ReasonPhrase}");
+        }
+    }
 }

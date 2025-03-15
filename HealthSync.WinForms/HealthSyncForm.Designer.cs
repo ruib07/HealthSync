@@ -22,10 +22,12 @@ partial class HealthSyncForm
         CreatePatientButton = new Button();
         PatientsTitle = new Label();
         PatientsData = new DataGridView();
+        DeletePatientButton = new DataGridViewButtonColumn();
         DoctorsTab = new TabPage();
         CreateDoctorButton = new Button();
         DoctorsTitle = new Label();
         DoctorsData = new DataGridView();
+        DeleteDoctorButton = new DataGridViewButtonColumn();
         AppointmentsTab = new TabPage();
         CreateAppointmentButton = new Button();
         AppointmentsTitle = new Label();
@@ -34,7 +36,9 @@ partial class HealthSyncForm
         CreateMedicalRecordButton = new Button();
         MedicalRecordsTitle = new Label();
         MedicalRecordsData = new DataGridView();
+        DeleteMedicalRecordButton = new DataGridViewButtonColumn();
         ExitTab = new TabPage();
+        DeleteAppointmentButton = new DataGridViewButtonColumn();
         HomeTab.SuspendLayout();
         PatientsTab.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)PatientsData).BeginInit();
@@ -107,10 +111,18 @@ partial class HealthSyncForm
         PatientsData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         PatientsData.BackgroundColor = SystemColors.Control;
         PatientsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        PatientsData.Columns.AddRange(new DataGridViewColumn[] { DeletePatientButton });
         PatientsData.Location = new Point(284, 261);
         PatientsData.Name = "PatientsData";
         PatientsData.Size = new Size(1097, 450);
         PatientsData.TabIndex = 1;
+        // 
+        // DeletePatientButton
+        // 
+        DeletePatientButton.HeaderText = "Actions";
+        DeletePatientButton.Name = "DeletePatientButton";
+        DeletePatientButton.Text = "Delete";
+        DeletePatientButton.UseColumnTextForButtonValue = true;
         // 
         // DoctorsTab
         // 
@@ -157,10 +169,18 @@ partial class HealthSyncForm
         DoctorsData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         DoctorsData.BackgroundColor = SystemColors.Control;
         DoctorsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        DoctorsData.Columns.AddRange(new DataGridViewColumn[] { DeleteDoctorButton });
         DoctorsData.Location = new Point(284, 261);
         DoctorsData.Name = "DoctorsData";
         DoctorsData.Size = new Size(1097, 450);
         DoctorsData.TabIndex = 3;
+        // 
+        // DeleteDoctorButton
+        // 
+        DeleteDoctorButton.HeaderText = "Actions";
+        DeleteDoctorButton.Name = "DeleteDoctorButton";
+        DeleteDoctorButton.Text = "Delete";
+        DeleteDoctorButton.UseColumnTextForButtonValue = true;
         // 
         // AppointmentsTab
         // 
@@ -206,6 +226,7 @@ partial class HealthSyncForm
         AppointmentsData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         AppointmentsData.BackgroundColor = SystemColors.Control;
         AppointmentsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        AppointmentsData.Columns.AddRange(new DataGridViewColumn[] { DeleteAppointmentButton });
         AppointmentsData.Location = new Point(284, 261);
         AppointmentsData.Name = "AppointmentsData";
         AppointmentsData.Size = new Size(1097, 450);
@@ -255,10 +276,18 @@ partial class HealthSyncForm
         MedicalRecordsData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         MedicalRecordsData.BackgroundColor = SystemColors.Control;
         MedicalRecordsData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        MedicalRecordsData.Columns.AddRange(new DataGridViewColumn[] { DeleteMedicalRecordButton });
         MedicalRecordsData.Location = new Point(284, 261);
         MedicalRecordsData.Name = "MedicalRecordsData";
         MedicalRecordsData.Size = new Size(1097, 450);
         MedicalRecordsData.TabIndex = 3;
+        // 
+        // DeleteMedicalRecordButton
+        // 
+        DeleteMedicalRecordButton.HeaderText = "Actions";
+        DeleteMedicalRecordButton.Name = "DeleteMedicalRecordButton";
+        DeleteMedicalRecordButton.Text = "Delete";
+        DeleteMedicalRecordButton.UseColumnTextForButtonValue = true;
         // 
         // ExitTab
         // 
@@ -269,6 +298,13 @@ partial class HealthSyncForm
         ExitTab.Size = new Size(1895, 1009);
         ExitTab.TabIndex = 4;
         ExitTab.Text = "Exit";
+        // 
+        // DeleteAppointmentButton
+        // 
+        DeleteAppointmentButton.HeaderText = "Actions";
+        DeleteAppointmentButton.Name = "DeleteAppointmentButton";
+        DeleteAppointmentButton.Text = "Delete";
+        DeleteAppointmentButton.UseColumnTextForButtonValue = true;
         // 
         // HealthSyncForm
         // 
@@ -315,4 +351,8 @@ partial class HealthSyncForm
     private TabPage ExitTab;
     private Button CreateAppointmentButton;
     private Button CreateMedicalRecordButton;
+    private DataGridViewButtonColumn DeletePatientButton;
+    private DataGridViewButtonColumn DeleteDoctorButton;
+    private DataGridViewButtonColumn DeleteMedicalRecordButton;
+    private DataGridViewButtonColumn DeleteAppointmentButton;
 }
