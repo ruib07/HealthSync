@@ -21,10 +21,10 @@ public partial class HealthSyncForm : Form
         InitializeComponent();
         this.Resize += ResizeEvent;
 
-        PatientsData.CellContentClick += PatientsData_DeleteCellClick;
-        DoctorsData.CellContentClick += DoctorsData_DeleteCellClick;
-        AppointmentsData.CellContentClick += AppointmentsData_DeleteCellClick;
-        MedicalRecordsData.CellContentClick += MedicalRecordsData_DeleteCellClick;
+        PatientsData.CellContentClick += PatientsData_CellContentClick;
+        DoctorsData.CellContentClick += DoctorsData_CellContentClick;
+        AppointmentsData.CellContentClick += AppointmentsData_CellContentClick;
+        MedicalRecordsData.CellContentClick += MedicalRecordsData_CellContentClick;
 
         _patientsService = patientsService;
         _doctorsService = doctorsService;
@@ -87,11 +87,21 @@ public partial class HealthSyncForm : Form
         await LoadPatients();
     }
 
-    private async void PatientsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    private async void PatientsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex >= 0 && PatientsData.Columns[e.ColumnIndex] == DeletePatientButton)
+        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+        var patientId = (Guid)PatientsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+        if (PatientsData.Columns[e.ColumnIndex] == SeePatientButton)
         {
-            var patientId = (Guid)PatientsData.Rows[e.RowIndex].Cells["Id"].Value;
+            var patient = await _patientsService.GetPatientById(patientId);
+            var patientDetailsForm = new PatientDetailsForm(patient);
+            patientDetailsForm.ShowDialog();
+        }
+
+        if (PatientsData.Columns[e.ColumnIndex] == DeletePatientButton)
+        {
 
             var confirmResult = MessageBox.Show("Are you sure you want to delete this patient?", "Confirm Deletion", 
                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -141,12 +151,21 @@ public partial class HealthSyncForm : Form
         await LoadDoctors();
     }
 
-    private async void DoctorsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    private async void DoctorsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex >= 0 && DoctorsData.Columns[e.ColumnIndex] == DeleteDoctorButton)
-        {
-            var doctorId = (Guid)DoctorsData.Rows[e.RowIndex].Cells["Id"].Value;
+        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
+        var doctorId = (Guid)DoctorsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+        if (DoctorsData.Columns[e.ColumnIndex] == SeeDoctorButton)
+        {
+            var doctor = await _doctorsService.GetDoctorById(doctorId);
+            var doctorDetailsForm = new DoctorDetailsForm(doctor);
+            doctorDetailsForm.ShowDialog();
+        }
+
+        if (DoctorsData.Columns[e.ColumnIndex] == DeleteDoctorButton)
+        {
             var confirmResult = MessageBox.Show("Are you sure you want to delete this doctor?", "Confirm Deletion",
                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -197,12 +216,21 @@ public partial class HealthSyncForm : Form
         await LoadAppointments();
     }
 
-    private async void AppointmentsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    private async void AppointmentsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex >= 0 && AppointmentsData.Columns[e.ColumnIndex] == DeleteAppointmentButton)
-        {
-            var appointmentId = (Guid)AppointmentsData.Rows[e.RowIndex].Cells["Id"].Value;
+        if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
 
+        var appointmentId = (Guid)AppointmentsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+        if (AppointmentsData.Columns[e.ColumnIndex] == SeeAppointmentButton)
+        {
+            var appointment = await _appointmentsService.GetAppointmentById(appointmentId);
+            var appointmentDetailsForm = new AppointmentDetailsForm(appointment);
+            appointmentDetailsForm.ShowDialog();
+        }
+
+        if (AppointmentsData.Columns[e.ColumnIndex] == DeleteAppointmentButton)
+        {
             var confirmResult = MessageBox.Show("Are you sure you want to delete this appointment?", "Confirm Deletion",
                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -253,12 +281,21 @@ public partial class HealthSyncForm : Form
         await LoadMedicalRecords();
     }
 
-    private async void MedicalRecordsData_DeleteCellClick(object sender, DataGridViewCellEventArgs e)
+    private async void MedicalRecordsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex >= 0 && MedicalRecordsData.Columns[e.ColumnIndex] == DeleteMedicalRecordButton)
-        {
-            var medicalRecordId = (Guid)MedicalRecordsData.Rows[e.RowIndex].Cells["Id"].Value;
+        if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
 
+        var medicalRecordId = (Guid)MedicalRecordsData.Rows[e.RowIndex].Cells["Id"].Value;
+
+        if (MedicalRecordsData.Columns[e.ColumnIndex] == SeeMedicalRecordButton)
+        {
+            var medicalRecord = await _medicalRecordsService.GetMedicalRecordById(medicalRecordId);
+            var medRecordDetailsForm = new MedicalRecordDetailsForm(medicalRecord);
+            medRecordDetailsForm.ShowDialog();
+        }
+
+        if (MedicalRecordsData.Columns[e.ColumnIndex] == DeleteMedicalRecordButton)
+        {
             var confirmResult = MessageBox.Show("Are you sure you want to delete this medical record?", "Confirm Deletion",
                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 

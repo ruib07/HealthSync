@@ -20,4 +20,19 @@ public static class UIHelper
         int centerX = (form.ClientSize.Width - button.Width) / 2;
         button.Location = new Point(centerX, button.Location.Y);
     }
+
+    public static void AlignFormInputs(Form form, List<Label> labels, List<Control> inputs, int startY, int spacing)
+    {
+        int centerX = form.ClientSize.Width / 2;
+        int labelOffset = -200;
+
+        for (int i = 0; i < labels.Count; i++)
+        {
+            if (i < inputs.Count)
+            {
+                labels[i].Location = new Point(centerX + labelOffset, startY + (i * spacing));
+                inputs[i].Location = new Point(centerX, startY + (i * spacing));
+            }
+        }
+    }
 }

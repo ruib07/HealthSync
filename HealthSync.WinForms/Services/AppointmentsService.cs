@@ -18,27 +18,34 @@ public class AppointmentsService
         return await _httpClient.GetFromJsonAsync<IEnumerable<Appointments>>("api/v1/appointments");
     }
 
+    public async Task<Appointments> GetAppointmentById(Guid appointmentId)
+    {
+        return await _httpClient.GetFromJsonAsync<Appointments>($"api/v1/appointments/{appointmentId}");
+    }
+
     public async Task<Appointments> CreateAppointment(Appointments appointment)
     {
         var response = await _httpClient.PostAsJsonAsync("api/v1/appointments", appointment);
 
-        if (response.StatusCode == HttpStatusCode.Created)
-        {
-            return await response.Content.ReadFromJsonAsync<Appointments>();
-        }
-        else
-        {
-            throw new Exception($"Error creating appointment: {response.ReasonPhrase}");
-        }
+        if (response.StatusCode == HttpStatusCode.Created) return await response.Content.ReadFromJsonAsync<Appointments>();
+        
+        else throw new Exception($"Error creating appointment: {response.ReasonPhrase}");
+    }
+
+    public async Task<Appointments> EditAppointment(Guid appointmentId, Appointments editAppointment)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"api/v1/appointments/{appointmentId}", editAppointment);
+
+        if (response.StatusCode == HttpStatusCode.OK) return await response.Content.ReadFromJsonAsync<Appointments>();
+
+        else throw new Exception($"Error updating appointment: {response.ReasonPhrase}");
     }
 
     public async Task RemoveAppointment(Guid appointmentId)
     {
         var response = await _httpClient.DeleteAsync($"api/v1/appointments/{appointmentId}");
 
-        if (response.StatusCode != HttpStatusCode.NoContent)
-        {
+        if (response.StatusCode != HttpStatusCode.NoContent) 
             throw new Exception($"Error deleting appointment: {response.ReasonPhrase}");
-        }
     }
 }
