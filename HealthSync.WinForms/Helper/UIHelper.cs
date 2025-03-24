@@ -35,4 +35,17 @@ public static class UIHelper
             }
         }
     }
+
+    public static void ToggleEditMode(Form form, bool enable, List<Control> inputFields, Button editButton, Button saveButton)
+    {
+        foreach (var field in inputFields)
+        {
+            if (field is TextBox textBox) textBox.ReadOnly = !enable;
+            if (field is ComboBox comboBox) comboBox.Enabled = enable;
+            if (field is DateTimePicker dateTimePicker) dateTimePicker.Enabled = enable;
+        }
+        
+        editButton.Visible = !enable;
+        saveButton.Visible = enable;
+    }
 }

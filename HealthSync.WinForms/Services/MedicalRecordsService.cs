@@ -36,7 +36,7 @@ public class MedicalRecordsService
     {
         var response = await _httpClient.PutAsJsonAsync($"api/v1/medicalrecords/{medicalRecordId}", editMedicalRecord);
 
-        if (response.StatusCode == HttpStatusCode.OK) return await response.Content.ReadFromJsonAsync<MedicalRecords>();
+        if (response.StatusCode == HttpStatusCode.OK) return editMedicalRecord;
 
         else throw new Exception($"Error updating medical record: {response.ReasonPhrase}");
     }

@@ -28,6 +28,8 @@ partial class DoctorDetailsForm
         DoctorDetailsTitle = new Label();
         DoctorSpecializationValue = new TextBox();
         DoctorLicenseNumberValue = new TextBox();
+        EditDoctorButton = new Button();
+        SaveDoctorButton = new Button();
         SuspendLayout();
         // 
         // DoctorPhoneNumberValue
@@ -152,11 +154,45 @@ partial class DoctorDetailsForm
         DoctorLicenseNumberValue.Size = new Size(357, 30);
         DoctorLicenseNumberValue.TabIndex = 33;
         // 
+        // EditDoctorButton
+        // 
+        EditDoctorButton.BackColor = Color.CornflowerBlue;
+        EditDoctorButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        EditDoctorButton.FlatAppearance.BorderSize = 0;
+        EditDoctorButton.FlatStyle = FlatStyle.Flat;
+        EditDoctorButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        EditDoctorButton.ForeColor = SystemColors.Control;
+        EditDoctorButton.Location = new Point(904, 598);
+        EditDoctorButton.Name = "EditDoctorButton";
+        EditDoctorButton.Size = new Size(150, 37);
+        EditDoctorButton.TabIndex = 34;
+        EditDoctorButton.Text = "Edit Doctor";
+        EditDoctorButton.UseVisualStyleBackColor = false;
+        EditDoctorButton.Click += EditDoctorButton_Click;
+        // 
+        // SaveDoctorButton
+        // 
+        SaveDoctorButton.BackColor = Color.CornflowerBlue;
+        SaveDoctorButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SaveDoctorButton.FlatAppearance.BorderSize = 0;
+        SaveDoctorButton.FlatStyle = FlatStyle.Flat;
+        SaveDoctorButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SaveDoctorButton.ForeColor = SystemColors.Control;
+        SaveDoctorButton.Location = new Point(904, 664);
+        SaveDoctorButton.Name = "SaveDoctorButton";
+        SaveDoctorButton.Size = new Size(150, 37);
+        SaveDoctorButton.TabIndex = 35;
+        SaveDoctorButton.Text = "Save Changes";
+        SaveDoctorButton.UseVisualStyleBackColor = false;
+        SaveDoctorButton.Click += SaveDoctorButton_Click;
+        // 
         // DoctorDetailsForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1904, 1041);
+        Controls.Add(SaveDoctorButton);
+        Controls.Add(EditDoctorButton);
         Controls.Add(DoctorLicenseNumberValue);
         Controls.Add(DoctorSpecializationValue);
         Controls.Add(DoctorPhoneNumberValue);
@@ -187,4 +223,6 @@ partial class DoctorDetailsForm
     private Label DoctorDetailsTitle;
     private TextBox DoctorSpecializationValue;
     private TextBox DoctorLicenseNumberValue;
+    private Button EditDoctorButton;
+    private Button SaveDoctorButton;
 }

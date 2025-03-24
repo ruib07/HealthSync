@@ -36,7 +36,7 @@ public class AppointmentsService
     {
         var response = await _httpClient.PutAsJsonAsync($"api/v1/appointments/{appointmentId}", editAppointment);
 
-        if (response.StatusCode == HttpStatusCode.OK) return await response.Content.ReadFromJsonAsync<Appointments>();
+        if (response.StatusCode == HttpStatusCode.OK) return editAppointment;
 
         else throw new Exception($"Error updating appointment: {response.ReasonPhrase}");
     }

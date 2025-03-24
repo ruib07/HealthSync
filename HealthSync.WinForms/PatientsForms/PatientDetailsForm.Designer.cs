@@ -28,6 +28,8 @@ partial class PatientDetailsForm
         PatientDateOfBirthValue = new DateTimePicker();
         PatientPhoneNumberValue = new TextBox();
         PatientAddressValue = new RichTextBox();
+        SavePatientButton = new Button();
+        EditPatientButton = new Button();
         SuspendLayout();
         // 
         // PatientDetailsTitle
@@ -151,11 +153,45 @@ partial class PatientDetailsForm
         PatientAddressValue.TabIndex = 20;
         PatientAddressValue.Text = "";
         // 
+        // SavePatientButton
+        // 
+        SavePatientButton.BackColor = Color.CornflowerBlue;
+        SavePatientButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SavePatientButton.FlatAppearance.BorderSize = 0;
+        SavePatientButton.FlatStyle = FlatStyle.Flat;
+        SavePatientButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SavePatientButton.ForeColor = SystemColors.Control;
+        SavePatientButton.Location = new Point(854, 685);
+        SavePatientButton.Name = "SavePatientButton";
+        SavePatientButton.Size = new Size(150, 37);
+        SavePatientButton.TabIndex = 37;
+        SavePatientButton.Text = "Save Changes";
+        SavePatientButton.UseVisualStyleBackColor = false;
+        SavePatientButton.Click += SavePatientButton_Click;
+        // 
+        // EditPatientButton
+        // 
+        EditPatientButton.BackColor = Color.CornflowerBlue;
+        EditPatientButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        EditPatientButton.FlatAppearance.BorderSize = 0;
+        EditPatientButton.FlatStyle = FlatStyle.Flat;
+        EditPatientButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        EditPatientButton.ForeColor = SystemColors.Control;
+        EditPatientButton.Location = new Point(854, 619);
+        EditPatientButton.Name = "EditPatientButton";
+        EditPatientButton.Size = new Size(150, 37);
+        EditPatientButton.TabIndex = 36;
+        EditPatientButton.Text = "Edit Patient";
+        EditPatientButton.UseVisualStyleBackColor = false;
+        EditPatientButton.Click += EditPatientButton_Click;
+        // 
         // PatientDetailsForm
         // 
         AutoScaleDimensions = new SizeF(9F, 21F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1904, 1041);
+        Controls.Add(SavePatientButton);
+        Controls.Add(EditPatientButton);
         Controls.Add(PatientAddressValue);
         Controls.Add(PatientPhoneNumberValue);
         Controls.Add(PatientDateOfBirthValue);
@@ -189,4 +225,6 @@ partial class PatientDetailsForm
     private DateTimePicker PatientDateOfBirthValue;
     private TextBox PatientPhoneNumberValue;
     private RichTextBox PatientAddressValue;
+    private Button SavePatientButton;
+    private Button EditPatientButton;
 }

@@ -96,7 +96,7 @@ public partial class HealthSyncForm : Form
         if (PatientsData.Columns[e.ColumnIndex] == SeePatientButton)
         {
             var patient = await _patientsService.GetPatientById(patientId);
-            var patientDetailsForm = new PatientDetailsForm(patient);
+            var patientDetailsForm = new PatientDetailsForm(patient, _patientsService);
             patientDetailsForm.ShowDialog();
         }
 
@@ -160,7 +160,7 @@ public partial class HealthSyncForm : Form
         if (DoctorsData.Columns[e.ColumnIndex] == SeeDoctorButton)
         {
             var doctor = await _doctorsService.GetDoctorById(doctorId);
-            var doctorDetailsForm = new DoctorDetailsForm(doctor);
+            var doctorDetailsForm = new DoctorDetailsForm(doctor, _doctorsService);
             doctorDetailsForm.ShowDialog();
         }
 
@@ -225,7 +225,7 @@ public partial class HealthSyncForm : Form
         if (AppointmentsData.Columns[e.ColumnIndex] == SeeAppointmentButton)
         {
             var appointment = await _appointmentsService.GetAppointmentById(appointmentId);
-            var appointmentDetailsForm = new AppointmentDetailsForm(appointment);
+            var appointmentDetailsForm = new AppointmentDetailsForm(appointment, _appointmentsService);
             appointmentDetailsForm.ShowDialog();
         }
 
@@ -290,7 +290,7 @@ public partial class HealthSyncForm : Form
         if (MedicalRecordsData.Columns[e.ColumnIndex] == SeeMedicalRecordButton)
         {
             var medicalRecord = await _medicalRecordsService.GetMedicalRecordById(medicalRecordId);
-            var medRecordDetailsForm = new MedicalRecordDetailsForm(medicalRecord);
+            var medRecordDetailsForm = new MedicalRecordDetailsForm(medicalRecord, _medicalRecordsService);
             medRecordDetailsForm.ShowDialog();
         }
 

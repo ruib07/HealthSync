@@ -36,7 +36,7 @@ public class PatientsService
     {
         var response = await _httpClient.PutAsJsonAsync($"api/v1/patients/{patientId}", editPatient);
 
-        if (response.StatusCode == HttpStatusCode.OK) return await response.Content.ReadFromJsonAsync<Patients>();
+        if (response.StatusCode == HttpStatusCode.OK) return editPatient;
 
         else throw new Exception($"Error updating patient: {response.ReasonPhrase}");
     }

@@ -28,6 +28,8 @@ partial class AppointmentDetailsForm
         PatientLabel = new Label();
         AppointmentDetailsTitle = new Label();
         AppointmentDateTimeValue = new DateTimePicker();
+        SaveAppointmentButton = new Button();
+        EditAppointmentButton = new Button();
         SuspendLayout();
         // 
         // AppointmentStatusValue
@@ -150,11 +152,45 @@ partial class AppointmentDetailsForm
         AppointmentDateTimeValue.Size = new Size(352, 26);
         AppointmentDateTimeValue.TabIndex = 45;
         // 
+        // SaveAppointmentButton
+        // 
+        SaveAppointmentButton.BackColor = Color.CornflowerBlue;
+        SaveAppointmentButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SaveAppointmentButton.FlatAppearance.BorderSize = 0;
+        SaveAppointmentButton.FlatStyle = FlatStyle.Flat;
+        SaveAppointmentButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SaveAppointmentButton.ForeColor = SystemColors.Control;
+        SaveAppointmentButton.Location = new Point(877, 619);
+        SaveAppointmentButton.Name = "SaveAppointmentButton";
+        SaveAppointmentButton.Size = new Size(150, 37);
+        SaveAppointmentButton.TabIndex = 47;
+        SaveAppointmentButton.Text = "Save Changes";
+        SaveAppointmentButton.UseVisualStyleBackColor = false;
+        SaveAppointmentButton.Click += SaveAppointmentButton_Click;
+        // 
+        // EditAppointmentButton
+        // 
+        EditAppointmentButton.BackColor = Color.CornflowerBlue;
+        EditAppointmentButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        EditAppointmentButton.FlatAppearance.BorderSize = 0;
+        EditAppointmentButton.FlatStyle = FlatStyle.Flat;
+        EditAppointmentButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        EditAppointmentButton.ForeColor = SystemColors.Control;
+        EditAppointmentButton.Location = new Point(867, 553);
+        EditAppointmentButton.Name = "EditAppointmentButton";
+        EditAppointmentButton.Size = new Size(174, 37);
+        EditAppointmentButton.TabIndex = 46;
+        EditAppointmentButton.Text = "Edit Appointment";
+        EditAppointmentButton.UseVisualStyleBackColor = false;
+        EditAppointmentButton.Click += EditAppointmentButton_Click;
+        // 
         // AppointmentDetailsForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1904, 1041);
+        Controls.Add(SaveAppointmentButton);
+        Controls.Add(EditAppointmentButton);
         Controls.Add(AppointmentDateTimeValue);
         Controls.Add(AppointmentStatusValue);
         Controls.Add(AppointmentNotesValue);
@@ -186,4 +222,6 @@ partial class AppointmentDetailsForm
     private Label PatientLabel;
     private Label AppointmentDetailsTitle;
     private DateTimePicker AppointmentDateTimeValue;
+    private Button SaveAppointmentButton;
+    private Button EditAppointmentButton;
 }

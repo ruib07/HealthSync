@@ -28,6 +28,8 @@ partial class MedicalRecordDetailsForm
         PatientLabel = new Label();
         MedicalRecordDetailsTitle = new Label();
         MedRecordPrescriptionValue = new TextBox();
+        SaveMedicalRecordButton = new Button();
+        EditMedicalRecordButton = new Button();
         SuspendLayout();
         // 
         // MedRecordDateValue
@@ -150,11 +152,45 @@ partial class MedicalRecordDetailsForm
         MedRecordPrescriptionValue.Size = new Size(357, 30);
         MedRecordPrescriptionValue.TabIndex = 57;
         // 
+        // SaveMedicalRecordButton
+        // 
+        SaveMedicalRecordButton.BackColor = Color.CornflowerBlue;
+        SaveMedicalRecordButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SaveMedicalRecordButton.FlatAppearance.BorderSize = 0;
+        SaveMedicalRecordButton.FlatStyle = FlatStyle.Flat;
+        SaveMedicalRecordButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SaveMedicalRecordButton.ForeColor = SystemColors.Control;
+        SaveMedicalRecordButton.Location = new Point(919, 637);
+        SaveMedicalRecordButton.Name = "SaveMedicalRecordButton";
+        SaveMedicalRecordButton.Size = new Size(150, 37);
+        SaveMedicalRecordButton.TabIndex = 59;
+        SaveMedicalRecordButton.Text = "Save Changes";
+        SaveMedicalRecordButton.UseVisualStyleBackColor = false;
+        SaveMedicalRecordButton.Click += SaveMedicalRecordButton_Click;
+        // 
+        // EditMedicalRecordButton
+        // 
+        EditMedicalRecordButton.BackColor = Color.CornflowerBlue;
+        EditMedicalRecordButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        EditMedicalRecordButton.FlatAppearance.BorderSize = 0;
+        EditMedicalRecordButton.FlatStyle = FlatStyle.Flat;
+        EditMedicalRecordButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        EditMedicalRecordButton.ForeColor = SystemColors.Control;
+        EditMedicalRecordButton.Location = new Point(907, 571);
+        EditMedicalRecordButton.Name = "EditMedicalRecordButton";
+        EditMedicalRecordButton.Size = new Size(191, 37);
+        EditMedicalRecordButton.TabIndex = 58;
+        EditMedicalRecordButton.Text = "Edit Medical Record";
+        EditMedicalRecordButton.UseVisualStyleBackColor = false;
+        EditMedicalRecordButton.Click += EditMedicalRecordButton_Click;
+        // 
         // MedicalRecordDetailsForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1904, 1041);
+        Controls.Add(SaveMedicalRecordButton);
+        Controls.Add(EditMedicalRecordButton);
         Controls.Add(MedRecordPrescriptionValue);
         Controls.Add(MedRecordDateValue);
         Controls.Add(MedRecordDiagnosisValue);
@@ -186,4 +222,6 @@ partial class MedicalRecordDetailsForm
     private Label PatientLabel;
     private Label MedicalRecordDetailsTitle;
     private TextBox MedRecordPrescriptionValue;
+    private Button SaveMedicalRecordButton;
+    private Button EditMedicalRecordButton;
 }
