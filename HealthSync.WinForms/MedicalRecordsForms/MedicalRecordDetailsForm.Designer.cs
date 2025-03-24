@@ -19,8 +19,6 @@ partial class MedicalRecordDetailsForm
     {
         MedRecordDateValue = new DateTimePicker();
         MedRecordDiagnosisValue = new TextBox();
-        MedRecordDoctorValue = new TextBox();
-        MedRecordPatientValue = new TextBox();
         MedRecordPrescriptionLabel = new Label();
         MedRecordDateLabel = new Label();
         DoctorLabel = new Label();
@@ -30,6 +28,8 @@ partial class MedicalRecordDetailsForm
         MedRecordPrescriptionValue = new TextBox();
         SaveMedicalRecordButton = new Button();
         EditMedicalRecordButton = new Button();
+        MedRecordPatientValue = new ComboBox();
+        MedRecordDoctorValue = new ComboBox();
         SuspendLayout();
         // 
         // MedRecordDateValue
@@ -51,28 +51,6 @@ partial class MedicalRecordDetailsForm
         MedRecordDiagnosisValue.ReadOnly = true;
         MedRecordDiagnosisValue.Size = new Size(357, 30);
         MedRecordDiagnosisValue.TabIndex = 54;
-        // 
-        // MedRecordDoctorValue
-        // 
-        MedRecordDoctorValue.Anchor = AnchorStyles.None;
-        MedRecordDoctorValue.BorderStyle = BorderStyle.FixedSingle;
-        MedRecordDoctorValue.Font = new Font("Cascadia Code", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        MedRecordDoctorValue.Location = new Point(919, 285);
-        MedRecordDoctorValue.Name = "MedRecordDoctorValue";
-        MedRecordDoctorValue.ReadOnly = true;
-        MedRecordDoctorValue.Size = new Size(357, 30);
-        MedRecordDoctorValue.TabIndex = 53;
-        // 
-        // MedRecordPatientValue
-        // 
-        MedRecordPatientValue.Anchor = AnchorStyles.None;
-        MedRecordPatientValue.BorderStyle = BorderStyle.FixedSingle;
-        MedRecordPatientValue.Font = new Font("Cascadia Code", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        MedRecordPatientValue.Location = new Point(919, 227);
-        MedRecordPatientValue.Name = "MedRecordPatientValue";
-        MedRecordPatientValue.ReadOnly = true;
-        MedRecordPatientValue.Size = new Size(357, 30);
-        MedRecordPatientValue.TabIndex = 52;
         // 
         // MedRecordPrescriptionLabel
         // 
@@ -184,18 +162,36 @@ partial class MedicalRecordDetailsForm
         EditMedicalRecordButton.UseVisualStyleBackColor = false;
         EditMedicalRecordButton.Click += EditMedicalRecordButton_Click;
         // 
+        // MedRecordPatientValue
+        // 
+        MedRecordPatientValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        MedRecordPatientValue.FormattingEnabled = true;
+        MedRecordPatientValue.Location = new Point(919, 232);
+        MedRecordPatientValue.Name = "MedRecordPatientValue";
+        MedRecordPatientValue.Size = new Size(419, 29);
+        MedRecordPatientValue.TabIndex = 60;
+        // 
+        // MedRecordDoctorValue
+        // 
+        MedRecordDoctorValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        MedRecordDoctorValue.FormattingEnabled = true;
+        MedRecordDoctorValue.Location = new Point(908, 291);
+        MedRecordDoctorValue.Name = "MedRecordDoctorValue";
+        MedRecordDoctorValue.Size = new Size(419, 29);
+        MedRecordDoctorValue.TabIndex = 61;
+        // 
         // MedicalRecordDetailsForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1904, 1041);
+        Controls.Add(MedRecordDoctorValue);
+        Controls.Add(MedRecordPatientValue);
         Controls.Add(SaveMedicalRecordButton);
         Controls.Add(EditMedicalRecordButton);
         Controls.Add(MedRecordPrescriptionValue);
         Controls.Add(MedRecordDateValue);
         Controls.Add(MedRecordDiagnosisValue);
-        Controls.Add(MedRecordDoctorValue);
-        Controls.Add(MedRecordPatientValue);
         Controls.Add(MedRecordPrescriptionLabel);
         Controls.Add(MedRecordDateLabel);
         Controls.Add(DoctorLabel);
@@ -213,8 +209,6 @@ partial class MedicalRecordDetailsForm
 
     private DateTimePicker MedRecordDateValue;
     private TextBox MedRecordDiagnosisValue;
-    private TextBox MedRecordDoctorValue;
-    private TextBox MedRecordPatientValue;
     private Label MedRecordPrescriptionLabel;
     private Label MedRecordDateLabel;
     private Label DoctorLabel;
@@ -224,4 +218,6 @@ partial class MedicalRecordDetailsForm
     private TextBox MedRecordPrescriptionValue;
     private Button SaveMedicalRecordButton;
     private Button EditMedicalRecordButton;
+    private ComboBox MedRecordPatientValue;
+    private ComboBox MedRecordDoctorValue;
 }

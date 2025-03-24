@@ -19,8 +19,6 @@ partial class AppointmentDetailsForm
     {
         AppointmentStatusValue = new TextBox();
         AppointmentNotesValue = new TextBox();
-        AppointmentDoctorValue = new TextBox();
-        AppointmentPatientValue = new TextBox();
         AppointmentStatusLabel = new Label();
         AppointmentDateTimeLabel = new Label();
         DoctorLabel = new Label();
@@ -30,6 +28,8 @@ partial class AppointmentDetailsForm
         AppointmentDateTimeValue = new DateTimePicker();
         SaveAppointmentButton = new Button();
         EditAppointmentButton = new Button();
+        AppointmentPatientValue = new ComboBox();
+        AppointmentDoctorValue = new ComboBox();
         SuspendLayout();
         // 
         // AppointmentStatusValue
@@ -53,28 +53,6 @@ partial class AppointmentDetailsForm
         AppointmentNotesValue.ReadOnly = true;
         AppointmentNotesValue.Size = new Size(357, 30);
         AppointmentNotesValue.TabIndex = 42;
-        // 
-        // AppointmentDoctorValue
-        // 
-        AppointmentDoctorValue.Anchor = AnchorStyles.None;
-        AppointmentDoctorValue.BorderStyle = BorderStyle.FixedSingle;
-        AppointmentDoctorValue.Font = new Font("Cascadia Code", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        AppointmentDoctorValue.Location = new Point(841, 283);
-        AppointmentDoctorValue.Name = "AppointmentDoctorValue";
-        AppointmentDoctorValue.ReadOnly = true;
-        AppointmentDoctorValue.Size = new Size(357, 30);
-        AppointmentDoctorValue.TabIndex = 41;
-        // 
-        // AppointmentPatientValue
-        // 
-        AppointmentPatientValue.Anchor = AnchorStyles.None;
-        AppointmentPatientValue.BorderStyle = BorderStyle.FixedSingle;
-        AppointmentPatientValue.Font = new Font("Cascadia Code", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        AppointmentPatientValue.Location = new Point(841, 211);
-        AppointmentPatientValue.Name = "AppointmentPatientValue";
-        AppointmentPatientValue.ReadOnly = true;
-        AppointmentPatientValue.Size = new Size(357, 30);
-        AppointmentPatientValue.TabIndex = 40;
         // 
         // AppointmentStatusLabel
         // 
@@ -184,18 +162,36 @@ partial class AppointmentDetailsForm
         EditAppointmentButton.UseVisualStyleBackColor = false;
         EditAppointmentButton.Click += EditAppointmentButton_Click;
         // 
+        // AppointmentPatientValue
+        // 
+        AppointmentPatientValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        AppointmentPatientValue.FormattingEnabled = true;
+        AppointmentPatientValue.Location = new Point(841, 217);
+        AppointmentPatientValue.Name = "AppointmentPatientValue";
+        AppointmentPatientValue.Size = new Size(419, 29);
+        AppointmentPatientValue.TabIndex = 48;
+        // 
+        // AppointmentDoctorValue
+        // 
+        AppointmentDoctorValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        AppointmentDoctorValue.FormattingEnabled = true;
+        AppointmentDoctorValue.Location = new Point(830, 286);
+        AppointmentDoctorValue.Name = "AppointmentDoctorValue";
+        AppointmentDoctorValue.Size = new Size(419, 29);
+        AppointmentDoctorValue.TabIndex = 49;
+        // 
         // AppointmentDetailsForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1904, 1041);
+        Controls.Add(AppointmentDoctorValue);
+        Controls.Add(AppointmentPatientValue);
         Controls.Add(SaveAppointmentButton);
         Controls.Add(EditAppointmentButton);
         Controls.Add(AppointmentDateTimeValue);
         Controls.Add(AppointmentStatusValue);
         Controls.Add(AppointmentNotesValue);
-        Controls.Add(AppointmentDoctorValue);
-        Controls.Add(AppointmentPatientValue);
         Controls.Add(AppointmentStatusLabel);
         Controls.Add(AppointmentDateTimeLabel);
         Controls.Add(DoctorLabel);
@@ -213,8 +209,6 @@ partial class AppointmentDetailsForm
 
     private TextBox AppointmentStatusValue;
     private TextBox AppointmentNotesValue;
-    private TextBox AppointmentDoctorValue;
-    private TextBox AppointmentPatientValue;
     private Label AppointmentStatusLabel;
     private Label AppointmentDateTimeLabel;
     private Label DoctorLabel;
@@ -224,4 +218,6 @@ partial class AppointmentDetailsForm
     private DateTimePicker AppointmentDateTimeValue;
     private Button SaveAppointmentButton;
     private Button EditAppointmentButton;
+    private ComboBox AppointmentPatientValue;
+    private ComboBox AppointmentDoctorValue;
 }

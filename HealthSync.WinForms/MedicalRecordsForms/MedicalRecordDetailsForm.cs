@@ -8,14 +8,18 @@ public partial class MedicalRecordDetailsForm : Form
 {
     private readonly MedicalRecords _medicalRecord;
     private readonly MedicalRecordsService _medicalRecordsService;
+    private readonly PatientsService _patientsService;
+    private readonly DoctorsService _doctorsService;
 
-    public MedicalRecordDetailsForm(MedicalRecords medicalRecord, MedicalRecordsService medicalRecordsService)
+    public MedicalRecordDetailsForm(MedicalRecords medicalRecord, MedicalRecordsService medicalRecordsService, PatientsService patientsService, DoctorsService doctorsService)
     {
         InitializeComponent();
         this.Resize += ResizeEvent;
 
         _medicalRecord = medicalRecord;
         _medicalRecordsService = medicalRecordsService;
+        _patientsService = patientsService;
+        _doctorsService = doctorsService;
         LoadMedicalRecordDetails();
     }
 
@@ -36,10 +40,21 @@ public partial class MedicalRecordDetailsForm : Form
         UIHelper.CenterTitleLabels(this, MedicalRecordDetailsTitle);
     }
 
-    private void LoadMedicalRecordDetails()
+    private async void LoadMedicalRecordDetails()
     {
-        MedRecordDoctorValue.Text = _medicalRecord.DoctorId.ToString();
-        MedRecordPatientValue.Text = _medicalRecord.PatientId.ToString();
+        var doctors = await _doctorsService.GetDoctors();
+        var patients = await _patientsService.GetPatients();
+
+        MedRecordDoctorValue.DataSource = doctors.ToList();
+        MedRecordDoctorValue.DisplayMember = "Name";
+        MedRecordDoctorValue.ValueMember = "Id";
+
+        MedRecordPatientValue.DataSource = patients.ToList();
+        MedRecordPatientValue.DisplayMember = "Name";
+        MedRecordPatientValue.ValueMember = "Id";
+
+        MedRecordDoctorValue.SelectedValue = _medicalRecord.DoctorId;
+        MedRecordPatientValue.SelectedValue = _medicalRecord.PatientId;
         MedRecordDiagnosisValue.Text = _medicalRecord.Diagnosis;
         MedRecordPrescriptionValue.Text = _medicalRecord.Prescription;
         MedRecordDateValue.Value = _medicalRecord.RecordDate;
@@ -57,8 +72,8 @@ public partial class MedicalRecordDetailsForm : Form
             var updatedMedicalRecord = new MedicalRecords()
             {
                 Id = _medicalRecord.Id,
-                DoctorId = Guid.Parse(MedRecordDoctorValue.Text),
-                PatientId = Guid.Parse(MedRecordPatientValue.Text),
+                DoctorId = (Guid)MedRecordDoctorValue.SelectedValue,
+                PatientId = (Guid)MedRecordPatientValue.SelectedValue,
                 Diagnosis = MedRecordDiagnosisValue.Text,
                 Prescription = MedRecordPrescriptionValue.Text,
                 RecordDate = MedRecordDateValue.Value

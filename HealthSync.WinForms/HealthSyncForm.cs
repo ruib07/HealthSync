@@ -225,7 +225,7 @@ public partial class HealthSyncForm : Form
         if (AppointmentsData.Columns[e.ColumnIndex] == SeeAppointmentButton)
         {
             var appointment = await _appointmentsService.GetAppointmentById(appointmentId);
-            var appointmentDetailsForm = new AppointmentDetailsForm(appointment, _appointmentsService);
+            var appointmentDetailsForm = new AppointmentDetailsForm(appointment, _appointmentsService, _patientsService, _doctorsService);
             appointmentDetailsForm.ShowDialog();
         }
 
@@ -290,7 +290,7 @@ public partial class HealthSyncForm : Form
         if (MedicalRecordsData.Columns[e.ColumnIndex] == SeeMedicalRecordButton)
         {
             var medicalRecord = await _medicalRecordsService.GetMedicalRecordById(medicalRecordId);
-            var medRecordDetailsForm = new MedicalRecordDetailsForm(medicalRecord, _medicalRecordsService);
+            var medRecordDetailsForm = new MedicalRecordDetailsForm(medicalRecord, _medicalRecordsService, _patientsService, _doctorsService);
             medRecordDetailsForm.ShowDialog();
         }
 

@@ -2,6 +2,7 @@
 using HealthSync.Domain.Enums;
 using HealthSync.WinForms.Helper;
 using HealthSync.WinForms.Services;
+using System.Threading.Tasks;
 
 namespace HealthSync.WinForms.AppointmentsForms;
 
@@ -9,14 +10,18 @@ public partial class AppointmentDetailsForm : Form
 {
     private readonly Appointments _appointment;
     private readonly AppointmentsService _appointmentsService;
+    private readonly PatientsService _patientsService;
+    private readonly DoctorsService _doctorsService;
 
-    public AppointmentDetailsForm(Appointments appointment, AppointmentsService appointmentsService)
+    public AppointmentDetailsForm(Appointments appointment, AppointmentsService appointmentsService, PatientsService patientsService, DoctorsService doctorsService)
     {
         InitializeComponent();
         this.Resize += ResizeEvent;
 
         _appointment = appointment;
         _appointmentsService = appointmentsService;
+        _patientsService = patientsService;
+        _doctorsService = doctorsService;
         LoadAppointmentDetails();
 
     }
@@ -38,10 +43,21 @@ public partial class AppointmentDetailsForm : Form
         UIHelper.CenterTitleLabels(this, AppointmentDetailsTitle);
     }
 
-    private void LoadAppointmentDetails()
+    private async void LoadAppointmentDetails()
     {
-        AppointmentDoctorValue.Text = _appointment.DoctorId.ToString();
-        AppointmentPatientValue.Text = _appointment.PatientId.ToString();
+        var doctors = await _doctorsService.GetDoctors();
+        var patients = await _patientsService.GetPatients();
+
+        AppointmentDoctorValue.DataSource = doctors.ToList();
+        AppointmentDoctorValue.DisplayMember = "Name";
+        AppointmentDoctorValue.ValueMember = "Id";
+
+        AppointmentPatientValue.DataSource = patients.ToList();
+        AppointmentPatientValue.DisplayMember = "Name";
+        AppointmentPatientValue.ValueMember = "Id";
+
+        AppointmentDoctorValue.SelectedValue = _appointment.DoctorId;
+        AppointmentPatientValue.SelectedValue = _appointment.PatientId;
         AppointmentDateTimeValue.Value = _appointment.AppointmentDateTime;
         AppointmentNotesValue.Text = _appointment.Notes;
         AppointmentStatusValue.Text = _appointment.Status.ToString();
@@ -59,8 +75,8 @@ public partial class AppointmentDetailsForm : Form
             var updatedAppointment = new Appointments()
             {
                 Id = _appointment.Id,
-                DoctorId = Guid.Parse(AppointmentDoctorValue.Text),
-                PatientId = Guid.Parse(AppointmentPatientValue.Text),
+                DoctorId = (Guid)AppointmentDoctorValue.SelectedValue,
+                PatientId = (Guid)AppointmentPatientValue.SelectedValue,
                 AppointmentDateTime = AppointmentDateTimeValue.Value,
                 Notes = AppointmentNotesValue.Text,
                 Status = Enum.Parse<AppointmentStatus>(AppointmentStatusValue.Text),
