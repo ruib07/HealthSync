@@ -36,13 +36,25 @@ partial class HealthSyncForm
         AppointmentsData = new DataGridView();
         SeeAppointmentButton = new DataGridViewButtonColumn();
         DeleteAppointmentButton = new DataGridViewButtonColumn();
+        AppointmentsDoctorTab = new TabPage();
+        SeeDoctorAppointmentsButton = new Button();
+        DoctorSelectedValue = new ComboBox();
+        SelectDoctorTitle = new Label();
+        AppointmentsPatientTab = new TabPage();
+        SeePatientAppointmentsButton = new Button();
+        PatientSelectedValue = new ComboBox();
+        SelectPatientTitle = new Label();
         MedicalRecordsTab = new TabPage();
         CreateMedicalRecordButton = new Button();
         MedicalRecordsTitle = new Label();
         MedicalRecordsData = new DataGridView();
         SeeMedicalRecordButton = new DataGridViewButtonColumn();
         DeleteMedicalRecordButton = new DataGridViewButtonColumn();
+        MedRecordsPatientTab = new TabPage();
         ExitTab = new TabPage();
+        SeePatientMedRecordsButton = new Button();
+        MedRecPatientSelectedValue = new ComboBox();
+        SelectMedRecPatientTitle = new Label();
         HomeTab.SuspendLayout();
         PatientsTab.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)PatientsData).BeginInit();
@@ -50,8 +62,11 @@ partial class HealthSyncForm
         ((System.ComponentModel.ISupportInitialize)DoctorsData).BeginInit();
         AppointmentsTab.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)AppointmentsData).BeginInit();
+        AppointmentsDoctorTab.SuspendLayout();
+        AppointmentsPatientTab.SuspendLayout();
         MedicalRecordsTab.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)MedicalRecordsData).BeginInit();
+        MedRecordsPatientTab.SuspendLayout();
         SuspendLayout();
         // 
         // HomeTab
@@ -59,7 +74,10 @@ partial class HealthSyncForm
         HomeTab.Controls.Add(PatientsTab);
         HomeTab.Controls.Add(DoctorsTab);
         HomeTab.Controls.Add(AppointmentsTab);
+        HomeTab.Controls.Add(AppointmentsDoctorTab);
+        HomeTab.Controls.Add(AppointmentsPatientTab);
         HomeTab.Controls.Add(MedicalRecordsTab);
+        HomeTab.Controls.Add(MedRecordsPatientTab);
         HomeTab.Controls.Add(ExitTab);
         HomeTab.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
         HomeTab.Location = new Point(0, 0);
@@ -264,6 +282,104 @@ partial class HealthSyncForm
         DeleteAppointmentButton.Text = "Delete";
         DeleteAppointmentButton.UseColumnTextForButtonValue = true;
         // 
+        // AppointmentsDoctorTab
+        // 
+        AppointmentsDoctorTab.Controls.Add(SeeDoctorAppointmentsButton);
+        AppointmentsDoctorTab.Controls.Add(DoctorSelectedValue);
+        AppointmentsDoctorTab.Controls.Add(SelectDoctorTitle);
+        AppointmentsDoctorTab.Location = new Point(4, 30);
+        AppointmentsDoctorTab.Name = "AppointmentsDoctorTab";
+        AppointmentsDoctorTab.Size = new Size(1895, 1009);
+        AppointmentsDoctorTab.TabIndex = 5;
+        AppointmentsDoctorTab.Text = "Appointments by Doctor";
+        AppointmentsDoctorTab.UseVisualStyleBackColor = true;
+        // 
+        // SeeDoctorAppointmentsButton
+        // 
+        SeeDoctorAppointmentsButton.BackColor = Color.CornflowerBlue;
+        SeeDoctorAppointmentsButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SeeDoctorAppointmentsButton.FlatAppearance.BorderSize = 0;
+        SeeDoctorAppointmentsButton.FlatStyle = FlatStyle.Flat;
+        SeeDoctorAppointmentsButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SeeDoctorAppointmentsButton.ForeColor = SystemColors.Control;
+        SeeDoctorAppointmentsButton.Location = new Point(773, 408);
+        SeeDoctorAppointmentsButton.Name = "SeeDoctorAppointmentsButton";
+        SeeDoctorAppointmentsButton.Size = new Size(186, 37);
+        SeeDoctorAppointmentsButton.TabIndex = 50;
+        SeeDoctorAppointmentsButton.Text = "See Appointments";
+        SeeDoctorAppointmentsButton.UseVisualStyleBackColor = false;
+        SeeDoctorAppointmentsButton.Click += SeeDoctorAppointmentsButton_Click;
+        // 
+        // DoctorSelectedValue
+        // 
+        DoctorSelectedValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        DoctorSelectedValue.FormattingEnabled = true;
+        DoctorSelectedValue.Location = new Point(660, 275);
+        DoctorSelectedValue.Name = "DoctorSelectedValue";
+        DoctorSelectedValue.Size = new Size(419, 29);
+        DoctorSelectedValue.TabIndex = 49;
+        // 
+        // SelectDoctorTitle
+        // 
+        SelectDoctorTitle.Anchor = AnchorStyles.Top;
+        SelectDoctorTitle.AutoSize = true;
+        SelectDoctorTitle.Font = new Font("Cascadia Code", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SelectDoctorTitle.Location = new Point(763, 175);
+        SelectDoctorTitle.Name = "SelectDoctorTitle";
+        SelectDoctorTitle.Size = new Size(196, 32);
+        SelectDoctorTitle.TabIndex = 35;
+        SelectDoctorTitle.Text = "Select Doctor";
+        SelectDoctorTitle.TextAlign = ContentAlignment.MiddleCenter;
+        // 
+        // AppointmentsPatientTab
+        // 
+        AppointmentsPatientTab.Controls.Add(SeePatientAppointmentsButton);
+        AppointmentsPatientTab.Controls.Add(PatientSelectedValue);
+        AppointmentsPatientTab.Controls.Add(SelectPatientTitle);
+        AppointmentsPatientTab.Location = new Point(4, 30);
+        AppointmentsPatientTab.Name = "AppointmentsPatientTab";
+        AppointmentsPatientTab.Size = new Size(1895, 1009);
+        AppointmentsPatientTab.TabIndex = 6;
+        AppointmentsPatientTab.Text = "Appointments by Patient";
+        AppointmentsPatientTab.UseVisualStyleBackColor = true;
+        // 
+        // SeePatientAppointmentsButton
+        // 
+        SeePatientAppointmentsButton.BackColor = Color.CornflowerBlue;
+        SeePatientAppointmentsButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SeePatientAppointmentsButton.FlatAppearance.BorderSize = 0;
+        SeePatientAppointmentsButton.FlatStyle = FlatStyle.Flat;
+        SeePatientAppointmentsButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SeePatientAppointmentsButton.ForeColor = SystemColors.Control;
+        SeePatientAppointmentsButton.Location = new Point(773, 408);
+        SeePatientAppointmentsButton.Name = "SeePatientAppointmentsButton";
+        SeePatientAppointmentsButton.Size = new Size(186, 37);
+        SeePatientAppointmentsButton.TabIndex = 53;
+        SeePatientAppointmentsButton.Text = "See Appointments";
+        SeePatientAppointmentsButton.UseVisualStyleBackColor = false;
+        SeePatientAppointmentsButton.Click += SeePatientAppointmentsButton_Click;
+        // 
+        // PatientSelectedValue
+        // 
+        PatientSelectedValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        PatientSelectedValue.FormattingEnabled = true;
+        PatientSelectedValue.Location = new Point(660, 275);
+        PatientSelectedValue.Name = "PatientSelectedValue";
+        PatientSelectedValue.Size = new Size(419, 29);
+        PatientSelectedValue.TabIndex = 52;
+        // 
+        // SelectPatientTitle
+        // 
+        SelectPatientTitle.Anchor = AnchorStyles.Top;
+        SelectPatientTitle.AutoSize = true;
+        SelectPatientTitle.Font = new Font("Cascadia Code", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SelectPatientTitle.Location = new Point(763, 175);
+        SelectPatientTitle.Name = "SelectPatientTitle";
+        SelectPatientTitle.Size = new Size(210, 32);
+        SelectPatientTitle.TabIndex = 51;
+        SelectPatientTitle.Text = "Select Patient";
+        SelectPatientTitle.TextAlign = ContentAlignment.MiddleCenter;
+        // 
         // MedicalRecordsTab
         // 
         MedicalRecordsTab.Controls.Add(CreateMedicalRecordButton);
@@ -328,6 +444,18 @@ partial class HealthSyncForm
         DeleteMedicalRecordButton.Text = "Delete";
         DeleteMedicalRecordButton.UseColumnTextForButtonValue = true;
         // 
+        // MedRecordsPatientTab
+        // 
+        MedRecordsPatientTab.Controls.Add(SeePatientMedRecordsButton);
+        MedRecordsPatientTab.Controls.Add(MedRecPatientSelectedValue);
+        MedRecordsPatientTab.Controls.Add(SelectMedRecPatientTitle);
+        MedRecordsPatientTab.Location = new Point(4, 30);
+        MedRecordsPatientTab.Name = "MedRecordsPatientTab";
+        MedRecordsPatientTab.Size = new Size(1895, 1009);
+        MedRecordsPatientTab.TabIndex = 7;
+        MedRecordsPatientTab.Text = "Medical Records By Patient";
+        MedRecordsPatientTab.UseVisualStyleBackColor = true;
+        // 
         // ExitTab
         // 
         ExitTab.BackColor = Color.Transparent;
@@ -337,6 +465,43 @@ partial class HealthSyncForm
         ExitTab.Size = new Size(1895, 1009);
         ExitTab.TabIndex = 4;
         ExitTab.Text = "Exit";
+        // 
+        // SeePatientMedRecordsButton
+        // 
+        SeePatientMedRecordsButton.BackColor = Color.CornflowerBlue;
+        SeePatientMedRecordsButton.FlatAppearance.BorderColor = Color.FromArgb(192, 255, 255);
+        SeePatientMedRecordsButton.FlatAppearance.BorderSize = 0;
+        SeePatientMedRecordsButton.FlatStyle = FlatStyle.Flat;
+        SeePatientMedRecordsButton.Font = new Font("Cascadia Code", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SeePatientMedRecordsButton.ForeColor = SystemColors.Control;
+        SeePatientMedRecordsButton.Location = new Point(773, 408);
+        SeePatientMedRecordsButton.Name = "SeePatientMedRecordsButton";
+        SeePatientMedRecordsButton.Size = new Size(196, 37);
+        SeePatientMedRecordsButton.TabIndex = 53;
+        SeePatientMedRecordsButton.Text = "See Medical Records";
+        SeePatientMedRecordsButton.UseVisualStyleBackColor = false;
+        SeePatientMedRecordsButton.Click += SeePatientMedRecordsButton_Click;
+        // 
+        // MedRecPatientSelectedValue
+        // 
+        MedRecPatientSelectedValue.Font = new Font("Cascadia Code", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        MedRecPatientSelectedValue.FormattingEnabled = true;
+        MedRecPatientSelectedValue.Location = new Point(660, 275);
+        MedRecPatientSelectedValue.Name = "MedRecPatientSelectedValue";
+        MedRecPatientSelectedValue.Size = new Size(419, 29);
+        MedRecPatientSelectedValue.TabIndex = 52;
+        // 
+        // SelectMedRecPatientTitle
+        // 
+        SelectMedRecPatientTitle.Anchor = AnchorStyles.Top;
+        SelectMedRecPatientTitle.AutoSize = true;
+        SelectMedRecPatientTitle.Font = new Font("Cascadia Code", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+        SelectMedRecPatientTitle.Location = new Point(763, 175);
+        SelectMedRecPatientTitle.Name = "SelectMedRecPatientTitle";
+        SelectMedRecPatientTitle.Size = new Size(210, 32);
+        SelectMedRecPatientTitle.TabIndex = 51;
+        SelectMedRecPatientTitle.Text = "Select Patient";
+        SelectMedRecPatientTitle.TextAlign = ContentAlignment.MiddleCenter;
         // 
         // HealthSyncForm
         // 
@@ -357,9 +522,15 @@ partial class HealthSyncForm
         AppointmentsTab.ResumeLayout(false);
         AppointmentsTab.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)AppointmentsData).EndInit();
+        AppointmentsDoctorTab.ResumeLayout(false);
+        AppointmentsDoctorTab.PerformLayout();
+        AppointmentsPatientTab.ResumeLayout(false);
+        AppointmentsPatientTab.PerformLayout();
         MedicalRecordsTab.ResumeLayout(false);
         MedicalRecordsTab.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)MedicalRecordsData).EndInit();
+        MedRecordsPatientTab.ResumeLayout(false);
+        MedRecordsPatientTab.PerformLayout();
         ResumeLayout(false);
     }
 
@@ -391,4 +562,16 @@ partial class HealthSyncForm
     private DataGridViewButtonColumn DeletePatientButton;
     private DataGridViewButtonColumn SeeAppointmentButton;
     private DataGridViewButtonColumn DeleteAppointmentButton;
+    private TabPage AppointmentsDoctorTab;
+    private TabPage AppointmentsPatientTab;
+    private TabPage MedRecordsPatientTab;
+    private Label SelectDoctorTitle;
+    private ComboBox DoctorSelectedValue;
+    private Button SeeDoctorAppointmentsButton;
+    private Button SeePatientAppointmentsButton;
+    private ComboBox PatientSelectedValue;
+    private Label SelectPatientTitle;
+    private Button SeePatientMedRecordsButton;
+    private ComboBox MedRecPatientSelectedValue;
+    private Label SelectMedRecPatientTitle;
 }

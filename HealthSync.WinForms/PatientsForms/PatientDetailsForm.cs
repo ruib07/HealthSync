@@ -1,5 +1,5 @@
 ﻿using HealthSync.Domain.Entities;
-using HealthSync.WinForms.Helper;
+using HealthSync.WinForms.Helpers;
 using HealthSync.WinForms.Services;
 
 namespace HealthSync.WinForms.PatientsForms;

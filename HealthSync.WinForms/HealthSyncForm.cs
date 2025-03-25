@@ -1,7 +1,6 @@
-﻿using HealthSync.Domain.Entities;
-using HealthSync.WinForms.AppointmentsForms;
+﻿using HealthSync.WinForms.AppointmentsForms;
 using HealthSync.WinForms.DoctorsForms;
-using HealthSync.WinForms.Helper;
+using HealthSync.WinForms.Helpers;
 using HealthSync.WinForms.MedicalRecordsForms;
 using HealthSync.WinForms.PatientsForms;
 using HealthSync.WinForms.Services;
@@ -55,266 +54,95 @@ public partial class HealthSyncForm : Form
 
     private async void TabControl_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (HomeTab.SelectedTab == PatientsTab) await LoadPatients();
-        if (HomeTab.SelectedTab == DoctorsTab) await LoadDoctors();
-        if (HomeTab.SelectedTab == AppointmentsTab) await LoadAppointments();
-        if (HomeTab.SelectedTab == MedicalRecordsTab) await LoadMedicalRecords();
+        if (HomeTab.SelectedTab == PatientsTab) await PatientsHelper.LoadPatients(PatientsData, _patientsService);
+        if (HomeTab.SelectedTab == DoctorsTab) await DoctorsHelper.LoadDoctors(DoctorsData, _doctorsService);
+        if (HomeTab.SelectedTab == AppointmentsTab) await AppointmentsHelper.LoadAppointments(AppointmentsData, _appointmentsService);;
+        if (HomeTab.SelectedTab == AppointmentsDoctorTab) await AppointmentsHelper.LoadDoctorsForAppointments(DoctorSelectedValue, _doctorsService);
+        if (HomeTab.SelectedTab == AppointmentsPatientTab) await AppointmentsHelper.LoadPatientsForAppointments(PatientSelectedValue, _patientsService);
+        if (HomeTab.SelectedTab == MedicalRecordsTab) await MedicalRecordsHelper.LoadMedicalRecords(MedicalRecordsData, _medicalRecordsService);
+        if (HomeTab.SelectedTab == MedRecordsPatientTab) await MedicalRecordsHelper.LoadPatientsForMedicalRecords(MedRecPatientSelectedValue, _patientsService);
         if (HomeTab.SelectedTab == ExitTab) ExitButton_Click(sender, e);
     }
 
     #region Patients
-
-    private async Task LoadPatients()
-    {
-        try
-        {
-            var patients = await _patientsService.GetPatients();
-            PatientsData.DataSource = new List<Patients>(patients);
-
-            PatientsData.Columns["Id"].Visible = false;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
 
     private async void CreatePatientButton_Click(object sender, EventArgs e)
     {
         var addPatientForm = new AddPatientForm(_patientsService);
         addPatientForm.ShowDialog();
 
-        await LoadPatients();
+        await PatientsHelper.LoadPatients(PatientsData, _patientsService);
     }
 
-    private async void PatientsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    private void PatientsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-        var patientId = (Guid)PatientsData.Rows[e.RowIndex].Cells["Id"].Value;
-
-        if (PatientsData.Columns[e.ColumnIndex] == SeePatientButton)
-        {
-            var patient = await _patientsService.GetPatientById(patientId);
-            var patientDetailsForm = new PatientDetailsForm(patient, _patientsService);
-            patientDetailsForm.ShowDialog();
-        }
-
-        if (PatientsData.Columns[e.ColumnIndex] == DeletePatientButton)
-        {
-
-            var confirmResult = MessageBox.Show("Are you sure you want to delete this patient?", "Confirm Deletion", 
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (confirmResult == DialogResult.Yes)
-            {
-                try
-                {
-                    await _patientsService.RemovePatient(patientId);
-
-                    await LoadPatients();
-
-                    MessageBox.Show("Patient removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting patient: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+        PatientsHelper.HandlePatientClick(e, PatientsData, _patientsService);
     }
 
     #endregion
 
     #region Doctors
 
-    private async Task LoadDoctors()
-    {
-        try
-        {
-            var doctors = await _doctorsService.GetDoctors();
-            DoctorsData.DataSource = new List<Doctors>(doctors);
-
-            DoctorsData.Columns["Id"].Visible = false;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
-
     private async void CreateDoctorButton_Click(object sender, EventArgs e)
     {
         var addDoctorForm = new AddDoctorForm(_doctorsService);
         addDoctorForm.ShowDialog();
 
-        await LoadDoctors();
+        await DoctorsHelper.LoadDoctors(DoctorsData, _doctorsService);
     }
 
-    private async void DoctorsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    private void DoctorsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-        var doctorId = (Guid)DoctorsData.Rows[e.RowIndex].Cells["Id"].Value;
-
-        if (DoctorsData.Columns[e.ColumnIndex] == SeeDoctorButton)
-        {
-            var doctor = await _doctorsService.GetDoctorById(doctorId);
-            var doctorDetailsForm = new DoctorDetailsForm(doctor, _doctorsService);
-            doctorDetailsForm.ShowDialog();
-        }
-
-        if (DoctorsData.Columns[e.ColumnIndex] == DeleteDoctorButton)
-        {
-            var confirmResult = MessageBox.Show("Are you sure you want to delete this doctor?", "Confirm Deletion",
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (confirmResult == DialogResult.Yes)
-            {
-                try
-                {
-                    await _doctorsService.RemoveDoctor(doctorId);
-
-                    await LoadDoctors();
-
-                    MessageBox.Show("Doctor removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting doctor: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+        DoctorsHelper.HandleDoctorClick(e, DoctorsData, _doctorsService);
     }
 
     #endregion
 
     #region Appointments
 
-    private async Task LoadAppointments()
-    {
-        try
-        {
-            var appointments = await _appointmentsService.GetAppointments();
-            AppointmentsData.DataSource = new List<Appointments>(appointments);
-
-            AppointmentsData.Columns["Id"].Visible = false;
-            AppointmentsData.Columns["Patient"].Visible = false;
-            AppointmentsData.Columns["Doctor"].Visible = false;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
-
     private async void CreateAppointmentButton_Click(object sender, EventArgs e)
     {
         var addAppointmentForm = new AddAppointmentForm(_appointmentsService, _patientsService, _doctorsService);
         addAppointmentForm.ShowDialog();
 
-        await LoadAppointments();
+        await AppointmentsHelper.LoadAppointments(AppointmentsData, _appointmentsService);
     }
 
-    private async void AppointmentsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    private void AppointmentsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
+        AppointmentsHelper.HandleAppointmentClick(e, AppointmentsData, _appointmentsService, _patientsService, _doctorsService);
+    }
 
-        var appointmentId = (Guid)AppointmentsData.Rows[e.RowIndex].Cells["Id"].Value;
+    private void SeeDoctorAppointmentsButton_Click(object sender, EventArgs e)
+    {
+        AppointmentsHelper.SeeDoctorAppointments(DoctorSelectedValue, _appointmentsService);
+    }
 
-        if (AppointmentsData.Columns[e.ColumnIndex] == SeeAppointmentButton)
-        {
-            var appointment = await _appointmentsService.GetAppointmentById(appointmentId);
-            var appointmentDetailsForm = new AppointmentDetailsForm(appointment, _appointmentsService, _patientsService, _doctorsService);
-            appointmentDetailsForm.ShowDialog();
-        }
-
-        if (AppointmentsData.Columns[e.ColumnIndex] == DeleteAppointmentButton)
-        {
-            var confirmResult = MessageBox.Show("Are you sure you want to delete this appointment?", "Confirm Deletion",
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (confirmResult == DialogResult.Yes)
-            {
-                try
-                {
-                    await _appointmentsService.RemoveAppointment(appointmentId);
-
-                    await LoadAppointments();
-
-                    MessageBox.Show("Appointment removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting appointment: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+    private void SeePatientAppointmentsButton_Click(object sender, EventArgs e)
+    {
+        AppointmentsHelper.SeePatientAppointments(PatientSelectedValue, _appointmentsService);
     }
 
     #endregion
 
     #region Medical Records
 
-    private async Task LoadMedicalRecords()
-    {
-        try
-        {
-            var medicalRecords = await _medicalRecordsService.GetMedicalRecords();
-            MedicalRecordsData.DataSource = new List<MedicalRecords>(medicalRecords);
-
-            MedicalRecordsData.Columns["Id"].Visible = false;
-            MedicalRecordsData.Columns["Patient"].Visible = false;
-            MedicalRecordsData.Columns["Doctor"].Visible = false;
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
-
     private async void CreateMedicalRecordButton_Click(object sender, EventArgs e)
     {
         var addMedicalRecordForm = new AddMedicalRecordForm(_medicalRecordsService, _patientsService, _doctorsService);
         addMedicalRecordForm.ShowDialog();
 
-        await LoadMedicalRecords();
+        await MedicalRecordsHelper.LoadMedicalRecords(MedicalRecordsData, _medicalRecordsService);
     }
 
-    private async void MedicalRecordsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    private void MedicalRecordsData_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
-        if (e.ColumnIndex < 0 || e.RowIndex < 0) return;
+        MedicalRecordsHelper.HandleMedicalRecordClick(e, MedicalRecordsData, _medicalRecordsService, _patientsService, _doctorsService);
+    }
 
-        var medicalRecordId = (Guid)MedicalRecordsData.Rows[e.RowIndex].Cells["Id"].Value;
-
-        if (MedicalRecordsData.Columns[e.ColumnIndex] == SeeMedicalRecordButton)
-        {
-            var medicalRecord = await _medicalRecordsService.GetMedicalRecordById(medicalRecordId);
-            var medRecordDetailsForm = new MedicalRecordDetailsForm(medicalRecord, _medicalRecordsService, _patientsService, _doctorsService);
-            medRecordDetailsForm.ShowDialog();
-        }
-
-        if (MedicalRecordsData.Columns[e.ColumnIndex] == DeleteMedicalRecordButton)
-        {
-            var confirmResult = MessageBox.Show("Are you sure you want to delete this medical record?", "Confirm Deletion",
-                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (confirmResult == DialogResult.Yes)
-            {
-                try
-                {
-                    await _medicalRecordsService.RemoveMedicalRecord(medicalRecordId);
-
-                    await LoadMedicalRecords();
-
-                    MessageBox.Show("Medical record removed successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting medical record: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
+    private void SeePatientMedRecordsButton_Click(object sender, EventArgs e)
+    {
+        MedicalRecordsHelper.SeePatientMedicalRecords(MedRecPatientSelectedValue, _medicalRecordsService);
     }
 
     #endregion

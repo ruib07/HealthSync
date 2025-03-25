@@ -1,4 +1,4 @@
-﻿namespace HealthSync.WinForms.Helper;
+﻿namespace HealthSync.WinForms.Helpers;
 
 public static class UIHelper
 {
@@ -30,8 +30,8 @@ public static class UIHelper
         {
             if (i < inputs.Count)
             {
-                labels[i].Location = new Point(centerX + labelOffset, startY + (i * spacing));
-                inputs[i].Location = new Point(centerX, startY + (i * spacing));
+                labels[i].Location = new Point(centerX + labelOffset, startY + i * spacing);
+                inputs[i].Location = new Point(centerX, startY + i * spacing);
             }
         }
     }

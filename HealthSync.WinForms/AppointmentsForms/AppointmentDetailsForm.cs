@@ -1,8 +1,7 @@
 ﻿using HealthSync.Domain.Entities;
 using HealthSync.Domain.Enums;
-using HealthSync.WinForms.Helper;
+using HealthSync.WinForms.Helpers;
 using HealthSync.WinForms.Services;
-using System.Threading.Tasks;
 
 namespace HealthSync.WinForms.AppointmentsForms;
 

@@ -23,6 +23,11 @@ public class MedicalRecordsService
         return await _httpClient.GetFromJsonAsync<MedicalRecords>($"api/v1/medicalrecords/{medicalRecordId}");
     }
 
+    public async Task<IEnumerable<MedicalRecords>> GetMedicalRecordsByPatientId(Guid patientId)
+    {
+        return await _httpClient.GetFromJsonAsync<IEnumerable<MedicalRecords>>($"api/v1/medicalrecords/bypatient/{patientId}");
+    }
+
     public async Task<MedicalRecords> CreateMedicalRecord(MedicalRecords medicalRecord)
     {
         var response = await _httpClient.PostAsJsonAsync("api/v1/medicalrecords", medicalRecord);

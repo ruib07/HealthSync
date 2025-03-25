@@ -23,6 +23,16 @@ public class AppointmentsService
         return await _httpClient.GetFromJsonAsync<Appointments>($"api/v1/appointments/{appointmentId}");
     }
 
+    public async Task<IEnumerable<Appointments>> GetAppointmentsByPatientId(Guid patientId)
+    {
+        return await _httpClient.GetFromJsonAsync<IEnumerable<Appointments>>($"api/v1/appointments/bypatient/{patientId}");
+    }
+
+    public async Task<IEnumerable<Appointments>> GetAppointmentsByDoctorId(Guid doctorId)
+    {
+        return await _httpClient.GetFromJsonAsync<IEnumerable<Appointments>>($"api/v1/appointments/bydoctor/{doctorId}");
+    }
+
     public async Task<Appointments> CreateAppointment(Appointments appointment)
     {
         var response = await _httpClient.PostAsJsonAsync("api/v1/appointments", appointment);
